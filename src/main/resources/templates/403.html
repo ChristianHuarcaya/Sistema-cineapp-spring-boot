@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Acceso Denegado | CineApp</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-4 text-danger">🚫 Acceso Denegado</h1>
+            <p class="lead">No tienes permisos para acceder a esta página.</p>
+            <a th:href="@{/}" class="btn btn-primary mt-3">Volver al inicio</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

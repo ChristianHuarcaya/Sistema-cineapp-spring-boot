@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{master.html}">
+
+<head>
+    <title>Editar Película</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="container my-5">
+    <div th:insert="admin/form :: form(true)"></div> <!-- Modo edición -->
+</div>
+
+<div layout:fragment="scripts">
+    <script>
+        function eliminarPelicula(id) {
+            if (!confirm('¿Estás seguro de eliminar esta película?')) {
+                return;
+            }
+            document.getElementById('eliminarPeliculaForm' + id).submit();
+        }
+    </script>
+</div>
+</body>
+</html>
+
+

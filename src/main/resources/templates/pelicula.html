@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{master.html}">
+<head>
+<meta charset="UTF-8">
+<title>Películas</title>
+<style>
+.card-img-top {
+	object-fit: cover;
+	height: 300px;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h2 class="mb-4 text-center">Cartelera de Estrenos</h2>
+
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="pelicula : ${peliculas.content}">
+				<div class="card h-100 shadow-sm">
+					<a
+						th:href="@{/assets/{filename}(filename=${pelicula.rutaPortada})}">
+						<img
+						th:src="@{/assets/{filename}(filename=${pelicula.rutaPortada})}"
+						class="card-img-top" alt="Portada de [[${pelicula.titulo}]]">
+					</a>
+					<div class="card-body">
+						<h5 class="card-title" th:text="${pelicula.titulo}">Título</h5>
+						<p class="card-text" th:text="${pelicula.sinopsis}">Sinopsis
+							de la película...</p>
+						<p class="text-muted">
+							Fecha de estreno: <span
+								th:text="${#temporals.format(pelicula.fechaEstreno, 'dd/MM/yyyy')}"></span>
+						</p>
+						<div th:if="${pelicula.rutaTrailer}">
+							<a th:href="${pelicula.rutaTrailer}"
+								class="btn btn-sm btn-primary" target="_blank"> Ver Tráiler
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- PAGINACIÓN -->
+		<div class="mt-5" th:with="page=${peliculas}">
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item" th:classappend="${page.first} ? 'disabled'">
+						<a class="page-link"
+						th:href="@{/peliculas(page=${page.number - 1})}">Anterior</a>
+					</li>
+					<li class="page-item"
+						th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+						th:classappend="${i == page.number} ? 'active'"><a
+						class="page-link" th:href="@{/peliculas(page=${i})}"
+						th:text="${i + 1}"></a></li>
+					<li class="page-item" th:classappend="${page.last} ? 'disabled'">
+						<a class="page-link"
+						th:href="@{/peliculas(page=${page.number + 1})}">Siguiente</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</body>
+</html>

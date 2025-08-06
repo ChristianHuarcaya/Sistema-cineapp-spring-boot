@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{master.html}">
+
+<head>
+    <title>Ver Película | CineApp</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container text-center">
+        <h2 class="mb-4" th:text="${pelicula.titulo}">Título de la película</h2>
+
+        <!-- Simulación de reproducción de película -->
+        <div class="ratio ratio-16x9 mb-4">
+            <!-- Puedes incrustar un video propio o usar YouTube como demo -->
+            <iframe th:src="'https://www.youtube.com/embed/' + ${pelicula.youtubeTrailerId}"
+                    title="Película completa"
+                    allowfullscreen></iframe>
+        </div>
+
+        <p class="text-muted" th:text="${pelicula.sinopsis}">Sinopsis extendida</p>
+
+        <a th:href="@{/peliculas}" class="btn btn-outline-primary mt-3">Volver a Películas</a>
+    </div>
+</div>
+</body>
+</html>

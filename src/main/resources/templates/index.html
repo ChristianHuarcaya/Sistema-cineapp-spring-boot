@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio | CineApp</title>
+
+    <style>
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+        }
+        .card-text-sinopsis {
+            max-height: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container my-5">
+        <!-- Encabezado de bienvenida -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-primary">¡Bienvenido a CineApp!🎬</h1>
+            <p class="lead text-muted">Disfruta de tus películas favoritas y los últimos estrenos sin ningún costo</p>
+        </div>
+
+        <!-- Últimos estrenos -->
+        <h2 class="text-center mb-4">Últimos Estrenos</h2>
+
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            <div class="col" th:each="pelicula : ${ultimasPeliculas}">
+                <div class="card h-100 shadow-sm border-0">
+                    <img th:src="@{/assets/{filename}(filename=${pelicula.rutaPortada})}" class="card-img-top" alt="Portada">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${pelicula.titulo}">Título</h5>
+                        <p class="card-text-sinopsis text-muted small" th:text="${pelicula.sinopsis}">Sinopsis breve</p>
+                        <p class="card-text text-secondary small mb-1">
+                            <i class="bi bi-calendar-event"></i>
+                            <span th:text="${#temporals.format(pelicula.fechaEstreno, 'dd/MM/yyyy')}">Fecha de Estreno</span>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white text-center border-0">
+                        <a th:href="'https://www.youtube.com/watch?v=' + ${pelicula.youtubeTrailerId}"
+                           class="btn btn-sm btn-danger" target="_blank">
+                            Ver Tráiler
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/peliculas" class="btn btn-outline-primary btn-lg">Ver todas las películas</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

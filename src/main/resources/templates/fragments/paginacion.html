@@ -1,0 +1,23 @@
+<!-- src/main/resources/templates/fragments/paginacion.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="paginacion(peliculas)">
+    <nav th:if="${peliculas.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${peliculas.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin(page=${peliculas.number - 1})}">Anterior</a>
+            </li>
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(0, peliculas.totalPages - 1)}"
+                th:classappend="${i == peliculas.number} ? 'active'">
+                <a class="page-link" th:href="@{/admin(page=${i})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${peliculas.last} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin(page=${peliculas.number + 1})}">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

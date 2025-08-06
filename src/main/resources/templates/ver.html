@@ -1,0 +1,16 @@
+<!-- Solo mostrar el video completo si está logueado -->
+<div th:if="${#authentication.authenticated}">
+    <video controls>
+        <source th:src="@{${pelicula.urlCompleta}}" type="video/mp4" />
+    </video>
+</div>
+
+<!-- Mostrar el trailer si  no está logueado -->
+<div th:if="${not #authentication.authenticated}">
+    <p>Debes iniciar sesión para ver la película completa. Aquí tienes el trailer:</p>
+    <video controls>
+        <source th:src="@{${pelicula.urlTrailer}}" type="video/mp4" />
+    </video>
+    
+    <a th:href="@{/login}">Iniciar sesión</a>
+</div>

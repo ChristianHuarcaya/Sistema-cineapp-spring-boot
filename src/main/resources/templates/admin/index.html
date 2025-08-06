@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas | Admin</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container my-5">
+        <!-- Título y botón -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Películas registradas</h2>
+            <a th:href="@{/admin/peliculas/nuevo}" class="btn btn-success">
+                <i class="bi bi-plus-circle me-1"></i> Agregar Película
+            </a>
+        </div>
+
+        <!-- Mensajes de alerta -->
+        <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${param.success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${param.error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Tabla de películas -->
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Portada</th>
+                        <th>Título / Géneros</th>
+                        <th>Estreno</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pelicula : ${peliculas}" th:object="${pelicula}">
+                        <td style="width: 130px;">
+                            <img th:src="@{'/assets/' + *{rutaPortada}}" alt="Portada de la película"
+                                 class="img-fluid rounded shadow-sm" style="max-height: 160px;" />
+                        </td>
+                        <td class="text-start">
+                            <strong class="fs-5 d-block mb-1" th:text="*{titulo}">Título</strong>
+                            <small class="text-muted d-block mb-2" th:text="*{sinopsis}"></small>
+                            <div>
+                                <span class="badge bg-secondary me-1"
+                                      th:each="genero : *{generos}"
+                                      th:text="${genero.titulo}"></span>
+                            </div>
+                        </td>
+                        <td th:text="*{#temporals.format(fechaEstreno, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <a th:href="@{/admin/peliculas/{id}/editar(id=*{id})}" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <button class="btn btn-sm btn-outline-danger"
+                                    th:onclick="'eliminarPelicula(' + *{id} + ')'">
+                                <i class="bi bi-trash3"></i> Eliminar
+                            </button>
+                            <form th:id="'eliminarPeliculaForm' + *{id}"
+                                  th:action="@{/admin/peliculas/{id}/eliminar(id=*{id})}"
+                                  method="post" class="d-none"></form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TODO: Paginación aquí si usás Page<Pelicula> -->
+        <!-- <div class="mt-4"> ... </div> -->
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script>
+        function eliminarPelicula(id) {
+            if (confirm('¿Estás seguro de eliminar esta película? Esta acción no se puede deshacer.')) {
+                document.getElementById('eliminarPeliculaForm' + id).submit();
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

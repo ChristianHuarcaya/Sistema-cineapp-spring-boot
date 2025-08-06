@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{master.html}">
+<head>
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+<div layout:fragment="content" class="container my-5">
+    <h2>Usuarios registrados</h2>
+    
+    <div th:if="${param.error}" class="alert alert-danger" th:text="${param.error}"></div>
+    <div th:if="${param.exito}" class="alert alert-success" th:text="${param.exito}"></div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.username}"></td>
+            <td th:text="${usuario.email}"></td>
+            <td>
+                <a th:href="@{'/admin/usuarios/' + ${usuario.id} + '/editar-password'}" class="btn btn-sm btn-warning">
+                    Cambiar contraseña
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <a th:href="@{/admin}" class="btn btn-secondary">Volver al Panel</a>
+</div>
+</body>
+</html>

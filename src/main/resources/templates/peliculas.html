@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container my-5">
+        <h2 class="mb-4 text-center">Cartelera de Películas</h2>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="pelicula : ${peliculas.content}">
+                <div class="card h-100 shadow">
+                    <img th:src="@{/assets/{filename}(filename=${pelicula.rutaPortada})}" class="card-img-top"
+                         alt="Portada de la película">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${pelicula.titulo}">Título</h5>
+                        <p class="card-text" th:text="${pelicula.sinopsis}">Sinopsis</p>
+                        <p class="text-muted mb-1">
+                            <strong>Estreno:</strong>
+                            <span th:text="${#temporals.format(pelicula.fechaEstreno, 'dd/MM/yyyy')}">Fecha</span>
+                        </p>
+                    </div>
+                    <div class="card-footer text-center bg-white border-0">
+                        <a th:href="'https://www.youtube.com/watch?v=' + ${pelicula.youtubeTrailerId}" 
+                           target="_blank" class="btn btn-danger btn-sm">
+                            Ver Tráiler
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paginación -->
+        <nav th:if="${peliculas.totalPages > 1}" class="mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${peliculas.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/peliculas(page=${peliculas.number - 1})}">Anterior</a>
+                </li>
+
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, peliculas.totalPages - 1)}"
+                    th:classappend="${i == peliculas.number} ? 'active'">
+                    <a class="page-link" th:href="@{/peliculas(page=${i})}" th:text="${i + 1}">1</a>
+                </li>
+
+                <li class="page-item" th:classappend="${peliculas.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/peliculas(page=${peliculas.number + 1})}">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,65 @@
+<div th:fragment="form (isEdit)">
+    <form th:action="${isEdit} ? @{/admin/peliculas/{id}/editar(id=${pelicula.id})} : @{/admin/peliculas/nuevo}" 
+          th:object="${pelicula}" 
+          method="post" 
+          enctype="multipart/form-data" 
+          class="card shadow p-4 border-0 bg-light">
+
+        <!-- Campo oculto para ID en edición -->
+        <input type="hidden" th:if="${isEdit}" th:field="*{id}" />
+
+        <h4 class="mb-4 text-primary" th:text="${isEdit} ? 'Editar Película' : 'Registrar Película'"></h4>
+
+        <!-- TÍTULO -->
+        <div class="mb-3">
+            <label for="titulo" class="form-label fw-bold">Título</label>
+            <input type="text" id="titulo" class="form-control" th:field="*{titulo}" placeholder="Ingrese el título de la película" />
+            <div class="text-danger small" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+        </div>
+
+        <!-- SINOPSIS -->
+        <div class="mb-3">
+            <label for="sinopsis" class="form-label fw-bold">Sinopsis</label>
+            <textarea id="sinopsis" class="form-control" rows="4" th:field="*{sinopsis}" placeholder="Ingrese una breve sinopsis"></textarea>
+            <div class="text-danger small" th:if="${#fields.hasErrors('sinopsis')}" th:errors="*{sinopsis}"></div>
+        </div>
+
+        <!-- FECHA DE ESTRENO -->
+        <div class="mb-3">
+            <label for="fechaEstreno" class="form-label fw-bold">Fecha de Estreno</label>
+            <input type="date" id="fechaEstreno" class="form-control" th:field="*{fechaEstreno}" />
+            <div class="text-danger small" th:if="${#fields.hasErrors('fechaEstreno')}" th:errors="*{fechaEstreno}"></div>
+        </div>
+
+        <!-- YOUTUBE TRAILER ID -->
+        <div class="mb-3">
+            <label for="youtubeTrailerId" class="form-label fw-bold">YouTube Trailer ID</label>
+            <input type="text" id="youtubeTrailerId" class="form-control" th:field="*{youtubeTrailerId}" placeholder="Ejemplo: dQw4w9WgXcQ" />
+            <div class="text-danger small" th:if="${#fields.hasErrors('youtubeTrailerId')}" th:errors="*{youtubeTrailerId}"></div>
+        </div>
+
+        <!-- GÉNEROS -->
+        <div class="mb-3">
+            <label for="generos" class="form-label fw-bold">Géneros</label>
+            <select id="generos" class="form-select" multiple th:field="*{generos}" size="5">
+                <option th:each="genero : ${generos}" th:value="${genero.id}" th:text="${genero.titulo}"></option>
+            </select>
+            <div class="form-text">Mantén presionada Ctrl (Cmd en Mac) para seleccionar varios.</div>
+            <div class="text-danger small" th:if="${#fields.hasErrors('generos')}" th:errors="*{generos}"></div>
+        </div>
+
+        <!-- PORTADA -->
+        <div class="mb-4">
+            <label for="portada" class="form-label fw-bold">Portada</label>
+            <input type="file" id="portada" class="form-control" th:field="*{portada}" />
+            <div class="text-danger small" th:if="${#fields.hasErrors('portada')}" th:errors="*{portada}"></div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary px-4" th:text="${isEdit} ? 'Guardar Cambios' : 'Registrar'"></button>
+            <a th:href="@{/admin}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
